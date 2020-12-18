@@ -32,14 +32,14 @@ contract SynthSummaryUtil {
 
     bytes32 internal constant CONTRACT_SYNTHETIX = "Synthetix";
     bytes32 internal constant CONTRACT_EXRATES = "ExchangeRates";
-    bytes32 internal constant SUSD = "sUSD";
+    bytes32 internal constant SUSD = "hUSD";
 
     constructor(address resolver) public {
         addressResolverProxy = IAddressResolver(resolver);
     }
 
     function _synthetix() internal view returns (ISynthetix) {
-        return ISynthetix(addressResolverProxy.requireAndGetAddress(CONTRACT_SYNTHETIX, "Missing Synthetix address"));
+        return ISynthetix(addressResolverProxy.requireAndGetAddress(CONTRACT_SYNTHETIX, "Missing Horizon address"));
     }
 
     function _exchangeRates() internal view returns (IExchangeRates) {
