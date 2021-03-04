@@ -32,7 +32,7 @@ contract SynthSummaryUtil {
 
     bytes32 internal constant CONTRACT_SYNTHETIX = "Synthetix";
     bytes32 internal constant CONTRACT_EXRATES = "ExchangeRates";
-    bytes32 internal constant SUSD = "hUSD";
+    bytes32 internal constant ZUSD = "zUSD";
 
     constructor(address resolver) public {
         addressResolverProxy = IAddressResolver(resolver);
@@ -63,14 +63,14 @@ contract SynthSummaryUtil {
         uint numSynths = synthetix.availableSynthCount();
         bytes32[] memory currencyKeys = new bytes32[](numSynths);
         uint[] memory balances = new uint[](numSynths);
-        uint[] memory sUSDBalances = new uint[](numSynths);
+        uint[] memory zUSDBalances = new uint[](numSynths);
         for (uint i = 0; i < numSynths; i++) {
             ISynth synth = synthetix.availableSynths(i);
             currencyKeys[i] = synth.currencyKey();
             balances[i] = synth.balanceOf(account);
-            sUSDBalances[i] = exchangeRates.effectiveValue(currencyKeys[i], balances[i], SUSD);
+            zUSDBalances[i] = exchangeRates.effectiveValue(currencyKeys[i], balances[i], ZUSD);
         }
-        return (currencyKeys, balances, sUSDBalances);
+        return (currencyKeys, balances, zUSDBalances);
     }
 
     function frozenSynths() external view returns (bytes32[] memory) {
@@ -104,17 +104,17 @@ contract SynthSummaryUtil {
         uint256 numSynths = synthetix.availableSynthCount();
         bytes32[] memory currencyKeys = new bytes32[](numSynths);
         uint256[] memory balances = new uint256[](numSynths);
-        uint256[] memory sUSDBalances = new uint256[](numSynths);
+        uint256[] memory zUSDBalances = new uint256[](numSynths);
         for (uint256 i = 0; i < numSynths; i++) {
             ISynth synth = synthetix.availableSynths(i);
             currencyKeys[i] = synth.currencyKey();
             balances[i] = synth.totalSupply();
-            sUSDBalances[i] = exchangeRates.effectiveValue(
+            zUSDBalances[i] = exchangeRates.effectiveValue(
                 currencyKeys[i],
                 balances[i],
-                SUSD
+                ZUSD
             );
         }
-        return (currencyKeys, balances, sUSDBalances);
+        return (currencyKeys, balances, zUSDBalances);
     }
 }
